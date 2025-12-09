@@ -1,5 +1,19 @@
 <?php
-include 'db_config.php';;
+include_once 'db_config.php';
+if (isset($_SESSION['user_email'])) {
+?>
+    <script>
+        window.location.href = "user_dashboard.php";
+    </script>
+<?php
+}
+if (isset($_SESSION['admin_email'])) {
+?>
+    <script>
+        window.location.href = "admin_dashboard.php";
+    </script>
+    <?php
+}
 if (isset($_POST['loginbtn'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -15,7 +29,7 @@ if (isset($_POST['loginbtn'])) {
                     $_SESSION['user_email'] = $email;
                     setcookie("success", "Login Successful", time() + 5);
 
-?>
+    ?>
                     <script>
                         window.location.href = "user_dashboard.php";
                     </script>
@@ -57,8 +71,8 @@ ob_start();
         <div class="col-md-7 col-lg-6">
             <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
                 <!-- Header Banner -->
-                <div class="text-center py-4" style="background-color:#0d9488;">
-                    <h3 class="fw-bold text-white mb-0"><i class="fa-solid fa-user-circle me-2"></i>Login</h3>
+                <div class="text-center py-4" style="background-color:#0d9488;font-size:small;">
+                    <h4 class="fw-bold text-white mb-0"><i class="fa-solid fa-user-circle me-2"></i>Login</h4>
                 </div>
 
                 <!-- Login Form -->
@@ -96,7 +110,7 @@ ob_start();
                         </div>
 
                         <!-- Submit -->
-                        <button type="submit" class="btn w-100 text-white fw-semibold" style="background-color:#0d9488;"
+                        <button type="submit" class="btn w-100 text-white fw-semibold" style="background-color:#0d9488;font-size:small;"
                             name="loginbtn">Login</button>
                     </form>
 

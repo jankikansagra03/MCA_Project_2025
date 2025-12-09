@@ -1,5 +1,5 @@
 <?php
-include 'db_config.php';
+include_once 'db_config.php';
 include 'admin_authentication.php';
 ob_start();
 
@@ -369,21 +369,21 @@ if ($search !== '' || $category_filter !== '') {
 <div class="">
     <!-- Row 1: Heading only -->
     <div class="mb-3">
-        <h3 class="mb-0" style="color:var(--teal)">Manage Products</h3>
+        <h4 class="mb-0" style="color:var(--teal)">Manage Products</h4>
     </div>
 
     <!-- Row 2: Add New Product + Search -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <!-- Left: Add New Product -->
-        <button class="btn text-white fw-semibold" style="background-color:#0d9488;" data-bs-toggle="modal" data-bs-target="#addProductModal">
+        <button class="btn text-white fw-semibold" style="background-color:#0d9488;font-size:small;" data-bs-toggle="modal" data-bs-target="#addProductModal">
             <i class="fa fa-plus me-1"></i> Add New Product
         </button>
 
         <!-- Right: Search -->
         <form class="d-flex gap-2" method="GET" action="admin_products.php">
-            <input type="text" name="search" class="form-control" placeholder="Search by name or brand" value="<?= htmlspecialchars($search) ?>" style="min-width: 250px;">
+            <input type="text" name="search" style="font-size:small;" class="form-control" placeholder="Search by name or brand" value="<?= htmlspecialchars($search) ?>" style="min-width: 250px;">
 
-            <select name="category_filter" class="form-select" style="min-width: 180px;">
+            <select name="category_filter" class="form-select" style="min-width: 180px; font-size:small;">
                 <option value="">All Categories</option>
                 <?php foreach ($categories as $cat): ?>
                     <option value="<?= $cat['id'] ?>" <?= $category_filter == $cat['id'] ? 'selected' : '' ?>>
@@ -392,7 +392,7 @@ if ($search !== '' || $category_filter !== '') {
                 <?php endforeach; ?>
             </select>
 
-            <button type="submit" class="btn text-white fw-semibold" style="background-color:#0d9488;">
+            <button type="submit" class="btn text-white fw-semibold" style="background-color:#0d9488;font-size:small;">
                 Search
             </button>
         </form>
@@ -521,7 +521,7 @@ if ($search !== '' || $category_filter !== '') {
                                                     </div>
 
                                                     <div class="modal-footer">
-                                                        <button class="btn text-white fw-semibold" style="background-color:#0d9488;" data-bs-dismiss="modal">Close</button>
+                                                        <button class="btn text-white fw-semibold" style="background-color:#0d9488;font-size:small;" data-bs-dismiss="modal">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -729,19 +729,21 @@ if ($search !== '' || $category_filter !== '') {
 
         <!-- Pagination -->
         <nav class="mt-3" aria-label="Pagination">
-            <ul class="pagination mb-0">
+            <ul class="pagination mb-0 justify-content-center">
                 <?php
                 $qsBase = '';
                 if ($search !== '') $qsBase .= '&search=' . urlencode($search);
                 if ($category_filter !== '') $qsBase .= '&category_filter=' . urlencode($category_filter);
-
-                $prevDisabled = $page <= 1 ? ' disabled' : '';
-                $nextDisabled = $page >= $totalPages ? ' disabled' : '';
+                $prevDisabled = $page <= 1 ? 'disabled' : '';
+                $nextDisabled = $page >= $totalPages ? 'disabled' : '';
                 $prevPage = $page - 1;
                 $nextPage = $page + 1;
                 ?>
-                <li class="page-item<?= $prevDisabled ?>">
-                    <a class="page-link btn text-white fw-semibold" style="background-color:#0d9488;" href="?page=<?= $prevPage . $qsBase ?>">« Prev</a>
+
+                <li class="page-item prev-next <?= $prevDisabled ?>">
+                    <a class="page-link" href="?page=<?= $prevPage ?>">
+                        <i class="fa fa-chevron-left"></i> Previous
+                    </a>
                 </li>
 
                 <?php
@@ -749,15 +751,16 @@ if ($search !== '' || $category_filter !== '') {
                 $startp = max(1, $page - $range);
                 $endp = min($totalPages, $page + $range);
                 for ($p = $startp; $p <= $endp; $p++):
-                    $active = $p === $page ? ' active' : '';
                 ?>
-                    <li class="page-item<?= $active ?>">
-                        <a class="page-link" href="?page=<?= $p . $qsBase ?>"><?= $p ?></a>
+                    <li class="page-item <?= $p === $page ? 'active' : '' ?>">
+                        <a class="page-link" href="?page=<?= $p ?>"><?= $p ?></a>
                     </li>
                 <?php endfor; ?>
 
-                <li class="page-item<?= $nextDisabled ?>">
-                    <a class="page-link btn text-white fw-semibold" style="background-color:#0d9488;" href="?page=<?= $nextPage . $qsBase ?>">Next »</a>
+                <li class="page-item prev-next <?= $nextDisabled ?>">
+                    <a class="page-link" href="?page=<?= $nextPage ?>">
+                        Next <i class="fa fa-chevron-right"></i>
+                    </a>
                 </li>
             </ul>
         </nav>
@@ -849,7 +852,7 @@ if ($search !== '' || $category_filter !== '') {
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn text-white fw-semibold" style="background-color:#0d9488;" type="submit" name="add_product">
+                    <button class="btn text-white fw-semibold" style="background-color:#0d9488;font-size:small;" type="submit" name="add_product">
                         <i class="fa fa-save me-1"></i> Save
                     </button>
                     <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Close</button>

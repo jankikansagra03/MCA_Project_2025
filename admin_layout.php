@@ -1,6 +1,11 @@
 <?php
 include_once('db_config.php');
-// include_once('admin_authentication.php'); // Ensure admin is logged in
+include_once('admin_authentication.php');
+$url = $_SERVER['REQUEST_URI'];
+$parsed_url = parse_url($url);
+$path = $parsed_url['path'];
+$current_page = basename($path);
+// echo "<script>console.log('Current Page: " . $current_page . "');</script>";
 $admin_email = $_SESSION['admin_email'];
 $fullname = NULL;
 $role = NULL;
@@ -53,6 +58,7 @@ if ($result) {
         }
 
         body {
+            font-size: small;
             margin: 0;
             font-family: "Segoe UI", sans-serif;
             background: #f8fafc;
@@ -84,17 +90,17 @@ if ($result) {
             top: 60px;
             left: 0;
             bottom: 40px;
-            width: 220px;
+            width: 250px;
             background: var(--dark-teal);
-            overflow-y: auto;
-            padding-top: 1rem;
+
+            padding-top: 0.5rem;
             transition: transform 0.3s ease;
             z-index: 1020;
         }
 
         .sidebar .nav-link {
             color: #f1f1f1;
-            padding: .65rem 1rem;
+            padding: .5rem 1rem;
             display: flex;
             align-items: center;
             border-radius: .35rem;
@@ -103,7 +109,6 @@ if ($result) {
         .sidebar .nav-link i {
             margin-right: 10px;
         }
-
 
         .sidebar .nav-link.active {
             background: white;
@@ -120,9 +125,39 @@ if ($result) {
             transform: translateX(-100%);
         }
 
+        /* Fix for collapsible menu width issue */
+        .sidebar .collapse,
+        .sidebar .collapsing {
+            width: 100% !important;
+        }
+
+        /* Settings submenu styling */
+        .sidebar #settingsMenu {
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 0.35rem;
+            margin-top: 0.25rem;
+            padding: 0.5rem 0;
+        }
+
+        .sidebar #settingsMenu .nav-link {
+            padding: 0.3rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* Chevron rotation animation */
+        .sidebar .nav-link[aria-expanded="true"] .fa-chevron-down {
+            transform: rotate(180deg);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar .nav-link[aria-expanded="false"] .fa-chevron-down {
+            transform: rotate(0deg);
+            transition: transform 0.3s ease;
+        }
+
         main {
             margin-top: 60px;
-            margin-left: 220px;
+            margin-left: 250px;
             padding: 1.5rem;
             min-height: calc(100vh - 100px);
             overflow-y: auto;
@@ -150,19 +185,73 @@ if ($result) {
         @media (max-width: 991px) {
             .sidebar {
                 transform: translateX(-100%);
-                /* hidden by default */
             }
 
             .sidebar.show {
                 transform: translateX(0);
-                /* visible when toggled */
             }
 
             main {
                 margin-left: 0 !important;
             }
         }
+
+        /* Pagination Theme Styling */
+        .pagination {
+            gap: 5px;
+        }
+
+        .pagination .page-link {
+            color: #0d9488;
+            border: 1px solid #ddd;
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .pagination .page-link:hover {
+            background-color: #0d9488;
+            color: white;
+            border-color: #0d9488;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #0d9488;
+            border-color: #0d9488;
+            color: white;
+            font-weight: 600;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            background-color: #f5f5f5;
+            border-color: #ddd;
+            color: #999;
+            pointer-events: none;
+            cursor: not-allowed;
+        }
+
+        /* Special styling for Prev/Next buttons */
+        .pagination .page-item.prev-next .page-link {
+            background-color: #0d9488;
+            color: white;
+            border-color: #0d9488;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+        }
+
+        .pagination .page-item.prev-next .page-link:hover {
+            background-color: #0a7c72;
+            border-color: #0a7c72;
+        }
+
+        .pagination .page-item.prev-next.disabled .page-link {
+            background-color: #e0e0e0;
+            color: #999;
+            border-color: #ccc;
+        }
     </style>
+
+
 </head>
 
 <body>
@@ -179,14 +268,14 @@ if ($result) {
             <a href="#" class="navbar-brand">Admin Dashboard</a>
         </div>
         <div class="dropdown">
-            <a class="btn btn-lg btn-light dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
+            <a class="btn  btn-light dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false" style="font-size: small;">
                 <i class="fa fa-user-circle me-1"></i> <?= $fullname ?>
             </a>
-            <ul class="dropdown-menu dropdown-menu-end shadow">
+            <ul class="dropdown-menu dropdown-menu-end shadow" style="font-size: small;">
                 <li><a class="dropdown-item" href="admin_change_password.php"><i class="fa fa-key me-2"></i> Change Password</a></li>
                 <li><a class="dropdown-item" href="admin_edit_profile.php"><i class="fa fa-user-edit me-2"></i> Edit Profile</a></li>
-                <li><a class="dropdown-item" href="admin_change"><i class="fa fa-image me-2"></i> Change Profile Picture</a></li>
+                <li><a class="dropdown-item" href="admin_change_profile_picture.php"><i class="fa fa-image me-2"></i> Change Profile Picture</a></li>
                 <li>
                     <hr class="dropdown-divider">
                 </li>
@@ -198,21 +287,46 @@ if ($result) {
 
     <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
-        <ul class="nav flex-column px-2">
-            <li><a href="admin_dashboard.php" class="nav-link active"><i class="fa fa-home"></i> Dashboard</a></li>
-            <li><a href="admin_users.php" class="nav-link"><i class="fa fa-users"></i> Users</a></li>
-            <li><a href="admin_categories.php" class="nav-link"><i class="fa-solid fa-sitemap"></i>Categories</a></li>
-            <li><a href="admin_products.php" class="nav-link"><i class="fa fa-box"></i> Products</a></li>
-            <li><a href="admin_orders.php" class="nav-link"><i class="fa-solid fa-list-check"></i> Orders</a></li>
-            <li><a href="admin_cart.php" class="nav-link"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-            <li><a href="admin_wishlist.php" class="nav-link"><i class="fa-solid fa-heart"></i> Wishlist</a></li>
-            <li><a href="admin_addresses.php" class="nav-link"><i class="fa-regular fa-address-book"></i> Address</a></li>
-            <li><a href="admin_queri" class="nav-link"><i class="fa-solid fa-person-circle-question"></i></i> Queries</a></li>
-            <li><a href="admin_offers.php" class="nav-link"><i class="fa-solid fa-percent"></i> Offers</a></li>
-            <li><a href="admin_viewSite.php" class="nav-link"><i class="fa-solid fa-eye"></i> View Website</a></li>
+        <ul class="nav flex-column px-2" style="font-size:small;">
+            <li><a href="admin_dashboard.php" class="nav-link <?php if ($current_page == "admin_dashboard.php") {
+                                                                    echo "active";
+                                                                } ?>"><i class="fa fa-home"></i> Dashboard</a></li>
+            <li><a href="admin_users.php" class="nav-link <?php if ($current_page == "admin_users.php") {
+                                                                echo "active";
+                                                            } ?>"><i class="fa fa-users"></i> Users</a></li>
+            <li><a href="admin_categories.php" class="nav-link <?php if ($current_page == "admin_categories.php") {
+                                                                    echo "active";
+                                                                } ?>"><i class="fa-solid fa-sitemap"></i>Categories</a></li>
+            <li><a href="admin_products.php" class="nav-link <?php if ($current_page == "admin_products.php") {
+                                                                    echo "active";
+                                                                } ?>"><i class="fa fa-box"></i> Products</a></li>
+            <li><a href="admin_orders.php" class="nav-link <?php if ($current_page == "admin_orders.php") {
+                                                                echo "active";
+                                                            } ?>"><i class="fa-solid fa-list-check"></i> Orders</a></li>
+            <li><a href="admin_cart.php" class="nav-link <?php if ($current_page == "admin_cart.php") {
+                                                                echo "active";
+                                                            } ?>"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+            <li><a href="admin_wishlist.php" class="nav-link <?php if ($current_page == "admin_wishlist.php") {
+                                                                    echo "active";
+                                                                } ?>"><i class="fa-solid fa-heart"></i> Wishlist</a></li>
+            <li><a href="admin_addresses.php" class="nav-link <?php if ($current_page == "admin_addresses.php") {
+                                                                    echo "active";
+                                                                } ?>"><i class="fa-regular fa-address-book"></i> Address</a></li>
+            <li><a href="admin_queries.php" class="nav-link <?php if ($current_page == "admin_queries.php") {
+                                                                echo "active";
+                                                            } ?>"><i class="fa-solid fa-person-circle-question"></i></i> Queries</a></li>
+            <li><a href="admin_offers.php" class="nav-link <?php if ($current_page == "admin_offers.php") {
+                                                                echo "active";
+                                                            } ?>"><i class="fa-solid fa-percent"></i> Offers</a></li>
+            <li><a href="admin_reviews.php" class="nav-link <?php if ($current_page == "admin_reviews.php") {
+                                                                echo "active";
+                                                            } ?>"><i class="fa-solid fa-percent"></i> Reviews</a></li>
+            <li><a href="admin_viewSite.php" class="nav-link <?php if ($current_page == "admin_viewSite.php") {
+                                                                    echo "active";
+                                                                } ?>"><i class="fa-solid fa-eye"></i> View Website</a></li>
 
             <!-- Settings Dropdown -->
-            <li>
+            <li class="nav-item">
                 <a
                     class="nav-link d-flex justify-content-between align-items-center"
                     data-bs-toggle="collapse"
@@ -223,12 +337,18 @@ if ($result) {
                     <span><i class="fa fa-cogs"></i> Settings</span>
                     <i class="fa fa-chevron-down small"></i>
                 </a>
-                <ul class="collapse list-unstyled ps-4" id="settingsMenu">
-                    <li><a href="admin_contactus.php" class="nav-link"><i class="fa fa-address-card"></i> Contact Details</a></li>
-                    <li><a href="admin_about.php" class="nav-link"><i class="fa fa-info-circle"></i> About</a></li>
-                    <li><a href="admin_privacypolicy.php" class="nav-link"><i class="fa fa-lock"></i> Privacy Policy</a></li>
-                </ul>
+                <div class="collapse" id="settingsMenu">
+                    <ul class="list-unstyled ps-4">
+                        <li><a style="font-size:smaller;" href="admin_contactus.php" class="nav-link"><i class="fa fa-address-card"></i> Contact Details</a></li>
+                        <li><a style="font-size:smaller;" href="admin_about.php" class="nav-link"><i class="fa fa-info-circle"></i> About</a></li>
+                        <li><a style="font-size:smaller;" href="admin_team.php" class="nav-link"><i class="fa fa-users"></i> Team Members</a></li>
+                        <li><a style="font-size:smaller;" href="admin_faq.php" class="nav-link"><i class="fa fa-question-circle"></i> FAQ</a></li>
+                        <li><a style="font-size:smaller;" href="admin_privacypolicy.php" class="nav-link"><i class="fa fa-lock"></i> Privacy Policy</a></li>
+                    </ul>
+                </div>
             </li>
+
+
         </ul>
     </nav>
 

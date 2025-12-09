@@ -1,5 +1,5 @@
 <?php
-include 'db_config.php';
+include_once 'db_config.php';
 include 'admin_authentication.php';
 ob_start();
 
@@ -146,17 +146,17 @@ $offset = $offset ?? 0;
 
 <div class="">
     <div class="mb-3">
-        <h3 class="mb-0" style="color:var(--teal)">Manage Categories</h3>
+        <h4 class="mb-0" style="color:var(--teal)">Manage Categories</h4>
     </div>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <button class="btn text-white fw-semibold" style="background-color:#0d9488;" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+        <button class="btn text-white fw-semibold" style="background-color:#0d9488;font-size:small;" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
             <i class="fa fa-plus me-1"></i> Add New Category
         </button>
 
         <form class="d-flex" method="GET" action="admin_categories.php">
-            <input type="text" name="search" class="form-control me-2" placeholder="Search category or status" value="<?= htmlspecialchars($search) ?>">
-            <button type="submit" name="search_btn" class="btn text-white fw-semibold" style="background-color:#0d9488;">
+            <input type="text" name="search" style="font-size:small;" class="form-control me-2" placeholder="Search category or status" value="<?= htmlspecialchars($search) ?>">
+            <button type="submit" name="search_btn" class="btn text-white fw-semibold" style="background-color:#0d9488;font-size:small;">
                 Search
             </button>
         </form>
@@ -226,7 +226,7 @@ $offset = $offset ?? 0;
                                                         </table>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button class="btn text-white fw-semibold" style="background-color:#0d9488;" data-bs-dismiss="modal">Close</button>
+                                                        <button class="btn text-white fw-semibold" style="background-color:#0d9488;font-size:small;" data-bs-dismiss="modal">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -313,29 +313,39 @@ $offset = $offset ?? 0;
 
         <!-- Pagination -->
         <nav class="mt-3" aria-label="Pagination">
-            <ul class="pagination mb-0">
+            <ul class="pagination mb-0 justify-content-center">
                 <?php
                 $qsBase = '';
                 if ($search !== '') $qsBase .= '&search=' . urlencode($search);
 
-                $prevDisabled = $page <= 1 ? ' disabled' : '';
-                $nextDisabled = $page >= $totalPages ? ' disabled' : '';
+                $prevDisabled = $page <= 1 ? 'disabled' : '';
+                $nextDisabled = $page >= $totalPages ? 'disabled' : '';
                 $prevPage = $page - 1;
                 $nextPage = $page + 1;
                 ?>
-                <li class="page-item <?= $prevDisabled ?> "><a class="page-link btn text-white fw-semibold" style="background-color:#0d9488;" href="?page=<?= $prevPage . $qsBase ?>">« Prev</a></li>
+
+                <li class="page-item prev-next <?= $prevDisabled ?>">
+                    <a class="page-link" href="?page=<?= $prevPage ?>">
+                        <i class="fa fa-chevron-left"></i> Previous
+                    </a>
+                </li>
 
                 <?php
                 $range = 3;
                 $startp = max(1, $page - $range);
                 $endp = min($totalPages, $page + $range);
                 for ($p = $startp; $p <= $endp; $p++):
-                    $active = $p === $page ? ' active' : '';
                 ?>
-                    <li class="page-item<?= $active ?>"><a class="page-link " href="?page=<?= $p . $qsBase ?>"><?= $p ?></a></li>
+                    <li class="page-item <?= $p === $page ? 'active' : '' ?>">
+                        <a class="page-link" href="?page=<?= $p ?>"><?= $p ?></a>
+                    </li>
                 <?php endfor; ?>
 
-                <li class="page-item<?= $nextDisabled ?>"><a class="page-link btn text-white fw-semibold" style="background-color:#0d9488;" href="?page=<?= $nextPage . $qsBase ?>">Next »</a></li>
+                <li class="page-item prev-next <?= $nextDisabled ?>">
+                    <a class="page-link" href="?page=<?= $nextPage ?>">
+                        Next <i class="fa fa-chevron-right"></i>
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>
@@ -367,7 +377,7 @@ $offset = $offset ?? 0;
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn text-white fw-semibold" style="background-color:#0d9488;" type="submit" name="add_category"><i class="fa fa-save me-1"></i> Save</button>
+                    <button class="btn text-white fw-semibold" style="background-color:#0d9488;font-size:small;" type="submit" name="add_category"><i class="fa fa-save me-1"></i> Save</button>
                     <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Close</button>
                 </div>
             </form>

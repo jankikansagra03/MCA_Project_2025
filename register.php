@@ -86,10 +86,10 @@ ob_start();
         <div class="col-lg-10">
             <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
                 <!-- Header -->
-                <div class="text-center py-4" style="background-color:#0d9488;">
-                    <h3 class="fw-bold text-white mb-0">
+                <div class="text-center py-4" style="background-color:#0d9488;font-size:small;">
+                    <h4 class="fw-bold text-white mb-0">
                         <i class="fa-solid fa-user-plus me-2"></i>Register
-                    </h3>
+                    </h4>
                 </div>
 
                 <!-- Form -->
@@ -178,7 +178,7 @@ ob_start();
                             <div class="col-12">
                                 <div class="d-grid">
                                     <button type="submit" class="btn text-white fw-semibold"
-                                        style="background-color:#0d9488;" name="regbtn">
+                                        style="background-color:#0d9488;font-size:small;" name="regbtn">
                                         Register
                                     </button>
                                 </div>

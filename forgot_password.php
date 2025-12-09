@@ -1,6 +1,6 @@
 <?php
 include 'mailer.php';
-include 'db_config.php';
+include_once 'db_config.php';
 
 $db_success = false;
 $send_email = false;
@@ -202,8 +202,8 @@ ob_start();
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-7">
             <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-                <div class="text-center py-4" style="background-color:#0d9488;">
-                    <h3 class="fw-bold text-white mb-0"><i class="fa-solid fa-key me-2"></i>Forgot Password</h3>
+                <div class="text-center py-4" style="background-color:#0d9488;font-size:small;">
+                    <h4 class="fw-bold text-white mb-0"><i class="fa-solid fa-key me-2"></i>Forgot Password</h4>
                 </div>
                 <div class="card-body p-4">
                     <p class="text-center mb-4" style="color:#0d9488;">
@@ -223,7 +223,7 @@ ob_start();
                             </p>
                         </div>
                         <div class="d-grid mt-3">
-                            <button type="submit" class="btn text-white fw-semibold" style="background-color:#0d9488;" name="send_otp" id="sendOtpButton">Send OTP</button>
+                            <button type="submit" class="btn text-white fw-semibold" style="background-color:#0d9488;font-size:small;" name="send_otp" id="sendOtpButton">Send OTP</button>
                         </div>
                     </form>
                     <div class="text-center mt-3">

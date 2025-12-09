@@ -64,8 +64,8 @@ ob_start();
             <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
 
                 <!-- Header Banner -->
-                <div class="text-center py-4" style="background-color:#0d9488;">
-                    <h3 class="fw-bold text-white mb-0"><i class="fa-solid fa-key me-2"></i>OTP Verification</h3>
+                <div class="text-center py-4" style="background-color:#0d9488;font-size:small;">
+                    <h4 class="fw-bold text-white mb-0"><i class="fa-solid fa-key me-2"></i>OTP Verification</h4>
                 </div>
 
                 <!-- Form -->
@@ -83,7 +83,7 @@ ob_start();
                         <div id="timer" class="text-danger"></div>
                         <br>
                         <div class="d-flex justify-content-center mb-4" name="otp">
-                            <button type="button" id="resend_otp" class="btn text-white fw-semibold" style="background-color:#0d9488;">Resend OTP
+                            <button type="button" id="resend_otp" class="btn text-white fw-semibold" style="background-color:#0d9488;font-size:small;">Resend OTP
                             </button>
                         </div>
                         <script>
@@ -145,7 +145,7 @@ ob_start();
                             };
                         </script>
                         <div class="d-grid mt-3">
-                            <button type="submit" class="btn text-white fw-semibold" style="background-color:#0d9488;" name="otp_btn">Verify OTP</button>
+                            <button type="submit" class="btn text-white fw-semibold" style="background-color:#0d9488;font-size:small;" name="otp_btn">Verify OTP</button>
                         </div>
                     </form>
                 </div>

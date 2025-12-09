@@ -1,7 +1,7 @@
 <?php
 session_start();
-include 'db_config.php';
-include 'mailer.php'; 
+include_once 'db_config.php';
+include 'mailer.php';
 
 if (isset($_SESSION['forgot_email'])) {
     $email = $_SESSION['forgot_email'];

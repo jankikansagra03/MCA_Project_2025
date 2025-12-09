@@ -16,7 +16,7 @@ if ($user) {
 
                 <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
                     <!-- Header -->
-                    <div class="card-header text-center py-3" style="background-color:#0d9488;">
+                    <div class="card-header text-center py-3" style="background-color:#0d9488;font-size:small;">
                         <h4 class="mb-0 text-white fw-bold">
                             <i class="fa-solid fa-user me-2"></i> My Profile
                         </h4>
@@ -62,7 +62,7 @@ if ($user) {
                         <!-- Action Buttons -->
                         <div class="mt-4 text-center">
                             <a href="edit_profile.php ?>" class="btn text-white fw-semibold px-4 me-2"
-                                style="background-color:#0d9488;">
+                                style="background-color:#0d9488;font-size:small;">
                                 <i class="fa-solid fa-pen-to-square me-1"></i> Edit Profile
                             </a>
                             <a href="change_password.php" class="btn fw-semibold px-4"

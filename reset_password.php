@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db_config.php';
+include_once 'db_config.php';
 
 if (isset($_POST['reset_pwd_btn'])) {
 
@@ -83,8 +83,8 @@ ob_start();
     <div class="row justify-content-center align-items-center">
         <div class="col-md-7 col-lg-6">
             <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-                <div class="text-center py-4" style="background-color:#0d9488;">
-                    <h3 class="fw-bold text-white mb-0"><i class="fa-solid fa-user-circle me-2"></i>Reset Password</h3>
+                <div class="text-center py-4" style="background-color:#0d9488;font-size:small;">
+                    <h4 class="fw-bold text-white mb-0"><i class="fa-solid fa-user-circle me-2"></i>Reset Password</h4>
                 </div>
 
                 <div class="card-body p-4">
@@ -104,7 +104,7 @@ ob_start();
                             <span class="error text-danger" id="cpasswordError"></span>
                         </div>
 
-                        <button type="submit" class="btn w-100 text-white fw-semibold" style="background-color:#0d9488;"
+                        <button type="submit" class="btn w-100 text-white fw-semibold" style="background-color:#0d9488;font-size:small;"
                             name="reset_pwd_btn">Reset Password</button>
                     </form>
                 </div>
